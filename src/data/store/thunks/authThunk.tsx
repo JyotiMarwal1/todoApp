@@ -5,24 +5,17 @@ import * as NavigationObject from "../../../utils/NavigationObject";
 import { resetScreen } from '../../../utils/NavigationObject';
 import * as SessionManager from '../../../utils/SessionManager';
 import WebConstants from '../../../webServices/WebConstants';
-import AuthRepo from '../../repo/AuthRepo';
+import AuthRepo from '../../repo/PostRepo';
 
-export const userLoginThunk = createAsyncThunk(
-  'userLoginThunk',
-  async (body: any) => {
-    const res: any = await AuthRepo.LoginApi(
-      body.name,
-      body.email,
-      body.mobileNumber,
-      body.isNewUser,
-      body.deviceToken,
-      body.deviceType,
-      body.userType,
-      body.firebaseUserId
+export const postThunk = createAsyncThunk(
+  'postThunk',
+  async () => {
+    const res: any = await AuthRepo.getPostApi(
+
     );
 
-    console.log("loginThunk ress", res)
-    console.log("*****************" + WebConstants.kLogin)
+    console.log("getpost thunk ress", JSON.stringify(res));
+    
 
     if (res?.response_code === 200) {
       await SessionManager.setLoginDataAsync(res?.response_packet);

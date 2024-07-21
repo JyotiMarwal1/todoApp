@@ -89,8 +89,8 @@ const MyTabs = () => {
 
     return (
         <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />}>
-            <Tab.Screen name="To Do List" component={PostListScreen} />
-            <Tab.Screen name="Posts" component={ToDoListScreen} />
+            <Tab.Screen name="To Do List" component={ToDoListScreen} />
+            <Tab.Screen name="Posts" component={PostListScreen} />
         </Tab.Navigator>
     );
 }
