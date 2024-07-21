@@ -60,8 +60,11 @@ class WebApi {
                         onTokenError()
                     } else {
                         responseModelObj = new ResponseModel(response.data);
+                        responseModelObj.response_packet = response.data
                     }
                     responseModelObj.http_status_code = response.status
+                    responseModelObj.response_code = response.status
+                    
                     resolve(responseModelObj)
                 }
             }).catch((error) => {

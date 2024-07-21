@@ -1,7 +1,8 @@
 // src/features/posts/postsSlice.js
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { postThunk } from '../thunks/authThunk';
+import { postThunk } from '../thunks/postThunk';
+
 
 const postsSlice = createSlice({
   name: 'posts',
@@ -17,6 +18,8 @@ const postsSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(postThunk.fulfilled, (state, action) => {
+      
+      console.log("action data", action.payload);
         state.status = 'succeeded';
         state.posts = action.payload;
       })

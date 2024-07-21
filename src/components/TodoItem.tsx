@@ -4,6 +4,7 @@ import { View, Text, Button, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { deleteTodo, toggleComplete } from '../data/store/slices/todoSlice';
 import { colors } from '../themes';
+import { getScreenHeight } from '../utils/Common';
 
 const TodoItem = ({ todo }) => {
   const dispatch = useDispatch();
@@ -30,7 +31,8 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
   },
   todoItem:{
-  color: colors.black
+  color: colors.black,
+  
   }
 });
 

@@ -10,11 +10,11 @@ class PostRepo {
         
       };
       const apiManager = new ApiManager();
-        apiManager.apiConfig.isApiResAutoHandle = false
+        apiManager.apiConfig.isApiResAutoHandle = true
 
       apiManager.makeGetRequest(WebConstants.kPosts).then((res: any) => {
         console.log("post response", res)
-        resolve(res);
+        resolve(res.response_packet);
       });
     });
   };
