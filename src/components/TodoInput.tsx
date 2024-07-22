@@ -1,31 +1,46 @@
 // src/TodoInput.js
-import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { addTodo } from '../data/store/slices/todoSlice';
 import { nanoid } from '@reduxjs/toolkit';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, TextInput, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { addTodo, editTodo } from '../data/store/slices/todoSlice';
 import { colors } from '../themes';
 import { getScreenHeight } from '../utils/Common';
 import PrimaryButton from './PrimaryButton';
 
-const TodoInput = () => {
+const TodoInput = ({ todoToEdit, onClose }) => {
   const [text, setText] = useState('');
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (todoToEdit) {
+      setText(todoToEdit.text);
+    }
+  }, [todoToEdit]);
+
   const onPressAddTodoBtn = () => {
     if (text.trim()) {
-      dispatch(addTodo({
-        id: nanoid(),
-        text,
-        completed: false,
-      }));
-      setText('');
+      if (todoToEdit) {
+        dispatch(editTodo({
+          id: todoToEdit.id,
+          text,
+        }));
+        onClose();
+      } else {
+        dispatch(addTodo({
+          id: nanoid(),
+          text,
+          completed: false,
+        }));
+        setText('');
+      }
     }
+
   };
-  
-  const onPressClearBtn = () =>{
-  setText('')
-  
+
+  const onPressClearBtn = () => {
+    setText('')
+
   }
 
   return (
@@ -39,19 +54,26 @@ const TodoInput = () => {
         placeholderTextColor={colors.grayE5}
       />
       <View style={styles.btnContainer}>
-      <PrimaryButton
-      primaryBtnTitle='Add Todo'
-      primaryBtnStyle={styles.todoButtonStyle}
-      onPrimaryButtonPress={onPressAddTodoBtn}
-      primaryBtnTitleStyle={styles.addTodoButtonTextStyle}
-      />
-            <PrimaryButton
-      primaryBtnTitle='Clear'
-      primaryBtnStyle={styles.todoButtonStyle}
-      onPrimaryButtonPress={onPressClearBtn}
-      primaryBtnTitleStyle={styles.addTodoButtonTextStyle}
-      />
+        <PrimaryButton
+          primaryBtnTitle={todoToEdit ? "Save" : "Add"}
+          primaryBtnStyle={styles.todoButtonStyle}
+          onPrimaryButtonPress={onPressAddTodoBtn}
+          primaryBtnTitleStyle={styles.addTodoButtonTextStyle}
+        />
+        <PrimaryButton
+          primaryBtnTitle='Clear'
+          primaryBtnStyle={styles.todoButtonStyle}
+          onPrimaryButtonPress={onPressClearBtn}
+          primaryBtnTitleStyle={styles.addTodoButtonTextStyle}
+        />
       </View>
+      {todoToEdit && <PrimaryButton
+        primaryBtnTitle={'Cancel'}
+        primaryBtnStyle={styles.cancelBtnStyle}
+        onPrimaryButtonPress={onClose}
+        primaryBtnTitleStyle={styles.addTodoButtonTextStyle}
+      />
+      }
     </View>
   );
 };
@@ -64,26 +86,32 @@ const styles = StyleSheet.create({
   input: {
     borderColor: colors.primaryIcon,
     borderWidth: 1,
-     paddingHorizontal: getScreenHeight(2),
+    paddingHorizontal: getScreenHeight(2),
     color: colors.black,
     // paddingVertical: getScreenHeight(3),
-     fontSize:getScreenHeight(2),
-     borderRadius: getScreenHeight(2),
-     
+    fontSize: getScreenHeight(2),
+    borderRadius: getScreenHeight(2),
+
   },
-  btnContainer:{
-  flexDirection:'row',
-  justifyContent:'space-between'
+  btnContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
-  todoButtonStyle:{
-  backgroundColor: colors.primaryIcon  ,
-  marginVertical: getScreenHeight(2),
-  flex: 0.43,
-  borderRadius: getScreenHeight(2),
-  paddingVertical: getScreenHeight(1.2),
+  todoButtonStyle: {
+    backgroundColor: colors.primaryIcon,
+    marginVertical: getScreenHeight(2),
+    flex: 0.43,
+    borderRadius: getScreenHeight(2),
+    paddingVertical: getScreenHeight(1.2),
   },
-  addTodoButtonTextStyle:{
-  color: colors.white
+  addTodoButtonTextStyle: {
+    color: colors.white
+  },
+  cancelBtnStyle: {
+
+    borderRadius: getScreenHeight(2),
+    paddingVertical: getScreenHeight(1.2),
+    backgroundColor: colors.red00
   }
 });
 

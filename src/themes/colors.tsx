@@ -33,7 +33,9 @@ export const colors = {
   primaryIcon: '#223A74',
 
   whiteBackground: '#FAFBFF',
-  primaryText: '#000000'
+  primaryText: '#000000',
+  green84: '#32de84',
+  grayF5: '#f5f5f5'
 
 };
 export default colors;
