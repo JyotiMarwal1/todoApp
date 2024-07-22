@@ -9,7 +9,7 @@ import { getScreenHeight } from '../utils/Common';
 import FlashMessageRef from '../utils/FlashMessageRef';
 import PrimaryButton from './PrimaryButton';
 
-const TodoInput = ({ todoToEdit, onClose }) => {
+const TodoInput = ({ todoToEdit, onClose }: any) => {
   const [text, setText] = useState('');
   const dispatch = useDispatch();
 
