@@ -3,6 +3,7 @@ import { Platform, StyleSheet, View } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import TodoInput from '../components/TodoInput'
 import TodoList from '../components/TodoList'
+import { colors } from '../themes'
 import { getScreenHeight } from '../utils/Common'
 
 const ToDoListScreen = () => {
@@ -18,7 +19,6 @@ const ToDoListScreen = () => {
         <TodoInput
         />
         <TodoList
-
         />
       </View>
     </KeyboardAwareScrollView>
@@ -30,7 +30,7 @@ export default ToDoListScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.whiteBackground,
     paddingVertical: getScreenHeight(2)
   }
 

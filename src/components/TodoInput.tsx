@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { addTodo, editTodo } from '../data/store/slices/todoSlice';
 import { colors } from '../themes';
 import { getScreenHeight } from '../utils/Common';
+import FlashMessageRef from '../utils/FlashMessageRef';
 import PrimaryButton from './PrimaryButton';
 
 const TodoInput = ({ todoToEdit, onClose }) => {
@@ -19,29 +20,30 @@ const TodoInput = ({ todoToEdit, onClose }) => {
   }, [todoToEdit]);
 
   const onPressAddTodoBtn = () => {
-    if (text.trim()) {
+    const trimmedText = text.trim();
+    if (trimmedText) {
       if (todoToEdit) {
         dispatch(editTodo({
           id: todoToEdit.id,
-          text,
+          text: trimmedText,
         }));
         onClose();
       } else {
         dispatch(addTodo({
           id: nanoid(),
-          text,
+          text: trimmedText,
           completed: false,
         }));
         setText('');
       }
+    } else {
+      FlashMessageRef.show({ message: 'Please enter your ToDo Text.', success: false });
     }
-
   };
 
   const onPressClearBtn = () => {
-    setText('')
-
-  }
+    setText('');
+  };
 
   return (
     <View style={styles.inputContainer}>
@@ -62,7 +64,7 @@ const TodoInput = ({ todoToEdit, onClose }) => {
         />
         <PrimaryButton
           primaryBtnTitle='Clear'
-          primaryBtnStyle={styles.todoButtonStyle}
+          primaryBtnStyle={[styles.todoButtonStyle, { backgroundColor: colors.grayD4 }]}
           onPrimaryButtonPress={onPressClearBtn}
           primaryBtnTitleStyle={styles.addTodoButtonTextStyle}
         />
@@ -72,8 +74,7 @@ const TodoInput = ({ todoToEdit, onClose }) => {
         primaryBtnStyle={styles.cancelBtnStyle}
         onPrimaryButtonPress={onClose}
         primaryBtnTitleStyle={styles.addTodoButtonTextStyle}
-      />
-      }
+      />}
     </View>
   );
 };
@@ -91,7 +92,6 @@ const styles = StyleSheet.create({
     // paddingVertical: getScreenHeight(3),
     fontSize: getScreenHeight(2),
     borderRadius: getScreenHeight(2),
-
   },
   btnContainer: {
     flexDirection: 'row',
@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
     color: colors.white
   },
   cancelBtnStyle: {
-
     borderRadius: getScreenHeight(2),
     paddingVertical: getScreenHeight(1.2),
     backgroundColor: colors.red00

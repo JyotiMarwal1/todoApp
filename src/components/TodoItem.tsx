@@ -10,7 +10,7 @@ import { showAlertWithTwoButtons } from '../utils/UtilityFunc';
 import PrimaryButton from './PrimaryButton';
 import TodoInput from './TodoInput';
 
-const TodoItem = ({ todo }) => {
+const TodoItem = ({ todo }: any) => {
   const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
 
